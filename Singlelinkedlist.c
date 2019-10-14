@@ -151,6 +151,20 @@ struct node *inserthead(struct node *head,int key)
 	head = temp;
 	return head;
 }
+struct node *exchange(struct node *head)
+{
+	struct node *temp = head;
+	while (temp->next->next != NULL)
+	{
+		temp = temp->next;
+	}
+	struct node *temp2 = temp->next;
+	temp->next = head;
+	head = head->next;
+	temp->next->next = NULL;
+	temp2->next = head;
+	return  temp2;
+}
 void printlist(struct node *head)
 {
 	if (head == NULL)
@@ -227,7 +241,8 @@ int main()
 		printf("8)Searching the Lists                \n");
 		printf("9)Delete ALL List                    \n");
 		printf("10)Reserving List                    \n");
-		printf("11)Exit                              \n");
+		printf("11)Exchange last and first node      \n");
+		printf("12)Exit                              \n");
 		scanf("%d", &case1);
 
 	
@@ -318,6 +333,13 @@ int main()
 		system("CLS");
 		break;
 	case 11:
+		head = exchange(head);
+		system("CLS");
+		printf("Press Enter.");
+		getch();
+		system("CLS");
+		break;
+	case 12:
 		head=deletealllist(head);
 		free(head);
 		case2 = 0;
