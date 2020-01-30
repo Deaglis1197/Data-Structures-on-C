@@ -1,0 +1,156 @@
+//WARNING !!! may this code have some bugs, some options not running correctly !!!
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <Windows.h>
+#include "structs.h"
+#include "structsfuction.h"
+#include "avltreefunction.h"
+
+int main() {
+
+	Btree *root = NULL;
+	int case1, case2 = 1, key, i, data;
+	while (case2 != 0)
+	{
+		printf("\n***************MENU**************\n");
+		printf("1)Create Binary tree and add data    \n");
+		printf("2)Size                               \n");
+		printf("3)Count Leaves                       \n");
+		printf("4)Height                             \n");
+		printf("5)Print inorder                      \n");
+		printf("6)Print preorder                     \n");
+		printf("7)Print postorder                    \n");
+		printf("8)Print Minimum Value                \n");
+		printf("9)Print Maximum Value                \n");
+		printf("10)Delete Searched Value             \n");
+		printf("11)Is this tree BST?                 \n");
+		printf("12)Mirror                            \n");
+		printf("0)Exit                               \n");
+		scanf("%d", &case1);
+
+
+		switch (case1) {
+		case 1:
+			system("CLS");
+			printf("How many nodes create?\n");
+			scanf("%d", &i);
+			for (int j = 0; j < i; j++) {
+				system("CLS");
+				printf("Enter your node data:\n");
+				scanf("%d", &key);
+				root = insert(root, key);
+			}
+			system("CLS");
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 2:
+			system("CLS");
+			data = size(root);
+			printf("Your Tree size is %d", data);
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 3:
+			system("CLS");
+			data = leaves(root);
+			printf("Your Tree have %d leaves", data);
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 4:
+			system("CLS");
+			data = height(root);
+			printf("Your Tree heigt is %d", data);
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 5:
+			system("CLS");
+			inorder(root);
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 6:
+			system("CLS");
+			preorder(root);
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 7:
+			system("CLS");
+			postorder(root);
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 8:
+			system("CLS");
+			data = minValue(root);
+			printf("Your Tree minimum value is %d", data);
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 9:
+			system("CLS");
+			data = maxValue(root);
+			printf("Your Tree minimum value is %d", data);
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 10:
+			system("CLS");
+			printf("Enter your node data:\n");
+			scanf("%d", &data);
+			root=delete_node(root, data);
+			system("CLS");
+			printf("Your Has Been Delete");
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 11:
+			system("CLS");
+			if (isBST(root)) {
+				printf("This tree is BST");
+			}
+			else
+			{
+				printf("This tree isn't BST");
+			}
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 12:
+			system("CLS");
+			mirror(root);
+			printf("Process has been completied");
+			printf("\nPress enter for continue\n");
+			getch();
+			system("CLS");
+			break;
+		case 0:
+			case2 = 0;
+			break;
+		default:
+			system("CLS");
+			case1 = 0;
+			printf("Wrong key!\nPress Enter.");
+			getch();
+			system("CLS");
+			break;
+		}
+	}
+
+	return 0;
+}
