@@ -1,5 +1,5 @@
 //WARNING !!! may this code have some bugs, some options not running correctly !!!
-
+//main.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <Windows.h>
@@ -153,4 +153,171 @@ int main() {
 	}
 
 	return 0;
+}
+//struct.h
+struct node {
+	int data;
+	struct node *right;
+	struct node *left;
+};
+typedef struct node Btree;
+//structsfuction.h
+Btree *new_node(int data) {
+	Btree *x = (Btree*)malloc(sizeof(Btree));
+	x->data = data;
+	x->left = NULL;
+	x->right = NULL;
+		return x;
+}
+Btree *insert(Btree *root, int data) {
+	if (root != NULL) {
+		if (data < root->data) {
+			root->left=insert(root->left, data);
+		}
+		else {
+			root->right=insert(root->right, data);
+		}
+
+	}
+	else
+		root = new_node(data);
+
+	return root;
+}
+int height(Btree *root) {
+	if (root == NULL)
+		return -1;
+	else {
+		int left_height, right_height;
+		left_height = height(root->left);
+		right_height = height(root->right);
+		if (right_height > left_height)
+			return right_height + 1;
+		else
+			return left_height + 1;
+	}
+}
+int size(Btree *root) {
+	if (root == NULL)
+		return 0;
+	else
+		return size(root->left) + 1 + size(root->right);
+}
+void mirror(Btree *root) {
+	if (root == NULL) {
+		return;
+	}
+	else {
+		mirror(root->left);
+		mirror(root->right);
+		Btree *temp=root->left;
+		root->left = root->right;
+		root->right = temp;
+
+		
+	}
+
+}
+void preorder(Btree *root) {
+	if (root != NULL) {
+		printf("%d ", root->data);
+		preorder(root->left);
+		preorder(root->right);
+	}
+}
+void inorder(Btree *root) {
+	if (root != NULL) {
+		inorder(root->left);
+		printf("%d ", root->data);
+		inorder(root->right);
+	}
+}
+void postorder(Btree *root) {
+	if (root != NULL) {
+		postorder(root->left);
+		postorder(root->right);
+		printf("%d ", root->data);
+	}
+}
+Btree* searchtree(Btree *tree, int data) {
+	if (tree != NULL) {
+		if (tree->data == data)
+			return tree;
+		else if (tree->data > data)
+			return searchtree(tree->left, data);
+		else
+			return searchtree(tree->right, data);
+	}
+		
+	else
+		return NULL;
+}
+Btree *delete_node(Btree *root, int x) {
+	Btree *p, *q;
+	if (root == NULL)
+		return NULL;
+	if (root->data == x) {
+		if (root->left == root->right) {
+			free(root);
+			return NULL;
+		}
+		else {
+			if (root->left == NULL) {
+				p = root->right;
+				free(root);
+				return p;
+			}
+			else if (root->right == NULL) {
+				p = root->right;
+				free(root);
+				return p;
+			}
+			else {
+				p = q = root->right;
+				while (p->left != NULL)
+					p = p->left;
+				p->left = root->left;
+				free(root);
+				return q;
+			}
+		}
+	}
+	else if (root->data < x) {
+		root->right = delete_node(root->right, x);
+	}
+	else
+		root->left = delete_node(root->left, x);
+}
+int maxValue(Btree *root) {
+	if (root == NULL)
+		return 0;
+	while (root->right != NULL)
+		root = root->right;
+	return(root->data);
+}
+int minValue(Btree *root) {
+	if (root == NULL)
+		return 0;
+	while (root->left != NULL)
+		root = root->left;
+	return(root->data);
+}
+int leaves(Btree *root) {
+	if (root == NULL)
+		return 0;
+	else if (root->left == NULL&&root->right == NULL)
+		return 1;
+	else
+		return leaves(root->left) + leaves(root->right);
+}
+int isBST(Btree *root) {
+	if (root == NULL)
+		return 1;
+	if (root->left != NULL&&maxValue(root->left) > root->data)
+		return 0;
+	if (root->right != NULL&&minValue(root->right) <= root->data)
+		return 0;
+	if (!isBST(root->left) || !isBST(root->right))
+		return 0;
+	return 1;
 }
