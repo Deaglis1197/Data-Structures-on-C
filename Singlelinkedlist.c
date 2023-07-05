@@ -198,31 +198,18 @@ void searchdata(struct node *head, int key)
 }
 struct node *reserving(struct node *head)
 {
-	if (head == NULL)
-	{
-		printf("List is empty !");
-		return head;
-	}
 	struct node *headtemp;
-	struct node *temp = head;
-	while (temp->next != NULL)
-	{
-		temp = temp->next;
-	}
-	temp->next = head;
-	head = head->next;
-	temp->next->next = NULL;
-	while (head != temp)
-	{
-		headtemp = head;
-		head = head->next;
-		headtemp->next = temp->next;
-		temp->next = headtemp;
+	
+	if(head->next!=NULL)
+        	headtemp=reserving(head->next);
 		
-	}
+        else
+        	return head;
 	
+	head->next->next=head;
+        head->next=NULL;
 	
-	return head;
+        return headtemp;
 }
 int main()
 {
